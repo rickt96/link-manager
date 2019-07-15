@@ -1,0 +1,38 @@
+﻿<Window x:Class="LinkManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LinkManager"
+        mc:Ignorable="d"
+        Title="Gestore link" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid>
+        <ListBox x:Name="lbxCategorie" HorizontalAlignment="Left" Margin="10,26,0,27" Width="220" SelectionChanged="LbxCategorie_SelectionChanged"/>
+        <DataGrid x:Name="dgLinks" Margin="235,26,10,27" IsReadOnly="True" Foreground="Black" Background="White" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding IdLink}"/>
+                <DataGridTextColumn Header="Nome" Binding="{Binding Nome}"/>
+                <DataGridHyperlinkColumn Header="URL" Binding="{Binding URL}"/>
+                <DataGridTextColumn Header="Descrizione" Binding="{Binding Descrizione}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Menu VerticalAlignment="Top" FontSize="14">
+            <MenuItem Header="_Categorie">
+                <MenuItem x:Name="miCategorieInserisci" Header="Inserisci" Click="MiCategorieInserisci_Click"/>
+                <MenuItem x:Name="miCategorieModifica" Header="Modifica" Click="MiCategorieModifica_Click"/>
+                <MenuItem Header="Elimina"/>
+                <Separator/>
+                <MenuItem Header="Visualizza" IsCheckable="True"/>
+            </MenuItem>
+            <MenuItem Header="_Link">
+                <MenuItem Header="Inserisci"/>
+                <MenuItem Header="Modifica"/>
+                <MenuItem Header="Elimina"/>
+            </MenuItem>
+            <MenuItem Header="Importa" IsEnabled="False"/>
+        </Menu>
+        <StatusBar VerticalAlignment="Bottom">
+            <TextBlock Text="numero elementi"/>
+        </StatusBar>
+    </Grid>
+</Window>
