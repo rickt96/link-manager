@@ -16,13 +16,14 @@ using System.Windows.Shapes;
 namespace LinkManager
 {
     /// <summary>
-    /// Interaction logic for WindowFormLink.xaml
+    /// Form di inserimento e modifica link
     /// </summary>
     public partial class WindowFormLink : Window
     {
         LinksService linkService;
         CategorieService categorieService;
         Link _link;
+
 
         public WindowFormLink(int defaultIdCategoria=0)
         {
@@ -33,6 +34,7 @@ namespace LinkManager
             _link = new Link();
             _link.IdCategoria = defaultIdCategoria;
         }
+
 
         public WindowFormLink(Link l)
         {
@@ -54,21 +56,23 @@ namespace LinkManager
             if(_link.IdLink > 0)
             {
                 linkService.Edit(_link);
-                MessageBox.Show("Link modificato", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Link modificato", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
                 linkService.Add(_link);
-                MessageBox.Show("Link aggiunto", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Link aggiunto", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
             this.DialogResult = true;
         }
 
+
         private void BtnAnnulla_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
         }
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -79,13 +83,12 @@ namespace LinkManager
             //caricamento elementi form
             txtTitolo.Text = (_link.IdLink > 0) ? _link.Titolo : "nuovo titolo";
             txtDescrizione.Text = (_link.IdLink > 0) ? _link.Descrizione : "descrizione";
-            txtUrl.Text = (_link.IdLink > 0) ? _link.URL : "";
+            txtUrl.Text = (_link.IdLink > 0) ? _link.URL : "http://";
             foreach (Categoria c in cmbCategoria.Items)
                 if (c.IdCategoria == _link.IdCategoria)
                     cmbCategoria.SelectedItem = c;
-
-
         }
+
 
         private void TxtUrl_TextChanged(object sender, TextChangedEventArgs e)
         {

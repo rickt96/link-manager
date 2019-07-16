@@ -49,13 +49,18 @@ namespace LinkManager.Services
 
         public List<Categoria> GetAll()
         {
-            return _context.Categorie.ToList();
+            return _context.Categorie.Include("Links").ToList();
         }
 
         public Categoria GetById(int id)
         {
             Categoria d = _context.Categorie.FirstOrDefault(x => x.IdCategoria == id);
             return d;
+        }
+
+        public List<Categoria> Search(string pattern)
+        {
+            return _context.Categorie.Where(c => c.Nome.Contains(pattern) || c.Descrizione.Contains(pattern)).Include("Links").ToList();
         }
     }
 }

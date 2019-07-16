@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="Gestore link" Height="546.967" Width="907.322" Loaded="Window_Loaded" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen">
     <Grid>
-        <ListBox x:Name="lbxCategorie" HorizontalAlignment="Left" Margin="10,26,0,27" Width="220" SelectionChanged="LbxCategorie_SelectionChanged"/>
-        <DataGrid x:Name="dgLinks" Margin="235,26,10,27" IsReadOnly="True" Foreground="Black" Background="White" AutoGenerateColumns="False" MouseDoubleClick="DgLinks_MouseDoubleClick">
+        <ListBox x:Name="lbxCategorie" HorizontalAlignment="Left" Margin="10,26,0,27.333" Width="220" SelectionChanged="LbxCategorie_SelectionChanged"/>
+        <DataGrid x:Name="dgLinks" Margin="235,26,10,27" IsReadOnly="True" Foreground="Black" Background="White" AutoGenerateColumns="False" MouseDoubleClick="DgLinks_MouseDoubleClick" GridLinesVisibility="Horizontal">
             <DataGrid.VerticalGridLinesBrush>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
             </DataGrid.VerticalGridLinesBrush>
@@ -18,8 +18,15 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding IdLink}"/>
                 <DataGridTextColumn Header="Titolo" Binding="{Binding Titolo}"/>
-                <DataGridHyperlinkColumn Header="URL" Binding="{Binding URL}"/>
+                <DataGridHyperlinkColumn Header="Url" Binding="{Binding URL}">
+                    <DataGridHyperlinkColumn.ElementStyle>
+                        <Style>
+                            <EventSetter Event="Hyperlink.Click" Handler="dgLinksUrl_Click"/>
+                        </Style>
+                    </DataGridHyperlinkColumn.ElementStyle>
+                </DataGridHyperlinkColumn>
                 <DataGridTextColumn Header="Descrizione" Binding="{Binding Descrizione}"/>
+                
             </DataGrid.Columns>
         </DataGrid>
         <Menu VerticalAlignment="Top" FontSize="14">
@@ -31,8 +38,8 @@
                 <MenuItem x:Name="miCategorieInserisci" Header="Inserisci" Click="MiCategorieInserisci_Click"/>
                 <MenuItem x:Name="miCategorieModifica" Header="Modifica" Click="MiCategorieModifica_Click"/>
                 <MenuItem x:Name="miCategorieElimina" Header="Elimina" Click="MiCategorieElimina_Click"/>
-                <Separator/>
-                <MenuItem Header="Visualizza" IsCheckable="True"/>
+                <MenuItem x:Name="miCategorieCerca" Header="Cerca..." Click="miCategorieCerca_Click"/>
+
             </MenuItem>
             <MenuItem Header="_Link">
                 <MenuItem x:Name="miLinkInserisci" Header="Inserisci" Click="MiLinkInserisci_Click"/>

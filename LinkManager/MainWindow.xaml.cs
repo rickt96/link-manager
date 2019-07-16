@@ -1,6 +1,7 @@
 ﻿using LinkManager.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.VisualBasic;
 
 namespace LinkManager
 {
@@ -32,19 +34,35 @@ namespace LinkManager
         }
 
 
-        void LoadCategorie()
+        void LoadCategorie(List<Categoria> list)
         {
-            lbxCategorie.SelectedIndex = -1;
-
+            //https://stackoverflow.com/questions/27348796/wpf-adding-an-object-to-listbox-with-existing-itemssource
             lbxCategorie.ItemsSource = null;
-            lbxCategorie.ItemsSource = categoriaService.GetAll();
+            var source = new ObservableCollection<Categoria>(list);
+            lbxCategorie.ItemsSource = source;
+            //source.Add(new Categoria() { Nome = "*Senza categoria", IdCategoria = -1 });
+            //source.Add(new Categoria() { Nome = "*Tutti", IdCategoria=0 });
+
+            //(new Categoria() { Nome = "prova" });
             lbxCategorie.DisplayMemberPath = "Nome";
         }
 
 
-        void LoadLinks()
+        void LoadLinks(List<Link> source)
         {
+            dgLinks.ItemsSource = null;
+            dgLinks.ItemsSource = source;
+        }
 
+        /// <summary>
+        /// ottiene l'oggetto categoria selezionato dalla listbox
+        /// </summary>
+        Categoria GetSelectedCategoria()
+        {
+            if (lbxCategorie.SelectedIndex == -1)
+                return null;
+            else
+                return (Categoria)lbxCategorie.SelectedItem;
         }
 
         void OpenUrl(string url)
@@ -62,7 +80,7 @@ namespace LinkManager
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadCategorie();
+            LoadCategorie(categoriaService.GetAll());
         }
 
 
@@ -70,12 +88,9 @@ namespace LinkManager
 
         private void LbxCategorie_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (lbxCategorie.SelectedIndex == -1)
-                return;
-
-            Categoria c = (Categoria)lbxCategorie.SelectedItem;
-            dgLinks.ItemsSource = linksService.GetAllByIdCategoria(c.IdCategoria.Value);
-
+            Categoria c = GetSelectedCategoria();
+            if(c != null)
+                LoadLinks(c.Links.ToList());
         }
 
 
@@ -84,7 +99,7 @@ namespace LinkManager
             bool result = new WindowFormCategoria().ShowDialog().Value;
 
             if (result)
-                LoadCategorie();
+                LoadCategorie(categoriaService.GetAll());
         }
 
 
@@ -97,7 +112,7 @@ namespace LinkManager
             bool result = new WindowFormCategoria(l).ShowDialog().Value;
 
             if (result)
-                LoadCategorie();
+                LoadCategorie(categoriaService.GetAll());
         }
 
 
@@ -112,7 +127,8 @@ namespace LinkManager
             if (res == MessageBoxResult.Yes)
             {
                 categoriaService.Delete(c.IdCategoria.Value);
-                LoadLinks();
+                LoadCategorie(categoriaService.GetAll());
+                //LoadLinks();
             }
         }
 
@@ -124,6 +140,7 @@ namespace LinkManager
         private void MiLinkInserisci_Click(object sender, RoutedEventArgs e)
         {
             new WindowFormLink().ShowDialog();
+            LoadCategorie(categoriaService.GetAll());
         }
 
 
@@ -134,6 +151,8 @@ namespace LinkManager
 
             Link l = (Link)dgLinks.SelectedItem;
             new WindowFormLink(l).ShowDialog();
+
+            LoadCategorie(categoriaService.GetAll());
         }
 
 
@@ -147,7 +166,7 @@ namespace LinkManager
             if (res == MessageBoxResult.Yes)
             {
                 linksService.Delete(l.IdLink);
-                LoadLinks();
+                LoadCategorie(categoriaService.GetAll());
             }
         }
 
@@ -157,15 +176,27 @@ namespace LinkManager
                 return;
 
             Link l = (Link)dgLinks.SelectedItem;
-            OpenUrl(l.URL);
+            new WindowFormLink(l).ShowDialog();
         }
+
+
+
+
+
 
         #endregion
 
+        private void miCategorieCerca_Click(object sender, RoutedEventArgs e)
+        {
+            string pattern = Interaction.InputBox("cerca");
+            LoadCategorie(categoriaService.Search(pattern));
+        }
 
-
-
-
-
+        private void dgLinksUrl_Click(object sender, RoutedEventArgs e)
+        {
+            //https://stackoverflow.com/questions/5764951/using-wpf-datagridhyperlinkcolumn-items-to-open-windows-explorer-and-open-files
+            Hyperlink link = (Hyperlink)e.OriginalSource;
+            Process.Start(link.NavigateUri.AbsoluteUri);
+        }
     }
 }
