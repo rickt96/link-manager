@@ -5,29 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LinkManager"
         mc:Ignorable="d"
-        Title="Gestore link" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Gestore link" Height="546.967" Width="907.322" Loaded="Window_Loaded" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen">
     <Grid>
         <ListBox x:Name="lbxCategorie" HorizontalAlignment="Left" Margin="10,26,0,27" Width="220" SelectionChanged="LbxCategorie_SelectionChanged"/>
-        <DataGrid x:Name="dgLinks" Margin="235,26,10,27" IsReadOnly="True" Foreground="Black" Background="White" AutoGenerateColumns="False">
+        <DataGrid x:Name="dgLinks" Margin="235,26,10,27" IsReadOnly="True" Foreground="Black" Background="White" AutoGenerateColumns="False" MouseDoubleClick="DgLinks_MouseDoubleClick">
+            <DataGrid.VerticalGridLinesBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+            </DataGrid.VerticalGridLinesBrush>
+            <DataGrid.HorizontalGridLinesBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+            </DataGrid.HorizontalGridLinesBrush>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding IdLink}"/>
-                <DataGridTextColumn Header="Nome" Binding="{Binding Nome}"/>
+                <DataGridTextColumn Header="Titolo" Binding="{Binding Titolo}"/>
                 <DataGridHyperlinkColumn Header="URL" Binding="{Binding URL}"/>
                 <DataGridTextColumn Header="Descrizione" Binding="{Binding Descrizione}"/>
             </DataGrid.Columns>
         </DataGrid>
         <Menu VerticalAlignment="Top" FontSize="14">
+            <MenuItem Header="_File">
+                <MenuItem Header="Apri..."/>
+                <MenuItem Header="Nuovo..."/>
+            </MenuItem>
             <MenuItem Header="_Categorie">
                 <MenuItem x:Name="miCategorieInserisci" Header="Inserisci" Click="MiCategorieInserisci_Click"/>
                 <MenuItem x:Name="miCategorieModifica" Header="Modifica" Click="MiCategorieModifica_Click"/>
-                <MenuItem Header="Elimina"/>
+                <MenuItem x:Name="miCategorieElimina" Header="Elimina" Click="MiCategorieElimina_Click"/>
                 <Separator/>
                 <MenuItem Header="Visualizza" IsCheckable="True"/>
             </MenuItem>
             <MenuItem Header="_Link">
-                <MenuItem Header="Inserisci"/>
-                <MenuItem Header="Modifica"/>
-                <MenuItem Header="Elimina"/>
+                <MenuItem x:Name="miLinkInserisci" Header="Inserisci" Click="MiLinkInserisci_Click"/>
+                <MenuItem x:Name="miLinkModifica" Header="Modifica" Click="MiLinkModifica_Click"/>
+                <MenuItem x:Name="miLinkElimina" Header="Elimina" Click="MiLinkElimina_Click"/>
             </MenuItem>
             <MenuItem Header="Importa" IsEnabled="False"/>
         </Menu>

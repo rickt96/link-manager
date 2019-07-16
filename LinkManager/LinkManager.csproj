@@ -170,6 +170,9 @@
     <Compile Include="WindowFormCategoria.xaml.cs">
       <DependentUpon>WindowFormCategoria.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowFormLink.xaml.cs">
+      <DependentUpon>WindowFormLink.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -184,6 +187,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="WindowFormCategoria.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowFormLink.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
