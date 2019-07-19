@@ -198,5 +198,10 @@ namespace LinkManager
             Hyperlink link = (Hyperlink)e.OriginalSource;
             Process.Start(link.NavigateUri.AbsoluteUri);
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            new WindowDialog().ShowDialog();
+        }
     }
 }

@@ -31,7 +31,7 @@
         </DataGrid>
         <Menu VerticalAlignment="Top" FontSize="14">
             <MenuItem Header="_File">
-                <MenuItem Header="Apri..."/>
+                <MenuItem Header="Apri..." Click="MenuItem_Click"/>
                 <MenuItem Header="Nuovo..."/>
             </MenuItem>
             <MenuItem Header="_Categorie">
