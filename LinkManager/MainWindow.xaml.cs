@@ -211,6 +211,7 @@ namespace LinkManager
         private void miFileApri_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "file sqlite (*.sqlite)|*.sqlite";
             if (ofd.ShowDialog() == true)
             {
                 ConfigManager cfg = new ConfigManager();
@@ -221,6 +222,23 @@ namespace LinkManager
 
                 LoadCategorie(categoriaService.GetAll());
                 this.Title = "Gestione link - " + ofd.FileName;
+            }
+        }
+
+        private void miFileNuovo_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "file sqlite (*.sqlite)|*.sqlite";
+            if (sfd.ShowDialog() == true)
+            {
+                ConfigManager cfg = new ConfigManager();
+                cfg.SetKey("FileName", sfd.FileName);
+
+                categoriaService = new CategorieService();
+                linksService = new LinksService();
+
+                LoadCategorie(categoriaService.GetAll());
+                this.Title = "Gestione link - " + sfd.FileName;
             }
         }
     }

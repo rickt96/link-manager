@@ -32,7 +32,7 @@
         <Menu VerticalAlignment="Top" FontSize="14">
             <MenuItem Header="_File">
                 <MenuItem x:Name="miFileApri" Header="Apri..." Click="miFileApri_Click"/>
-                <MenuItem Header="Nuovo..." IsEnabled="False"/>
+                <MenuItem x:Name="miFileNuovo" Header="Nuovo..." Click="miFileNuovo_Click"/>
             </MenuItem>
             <MenuItem Header="_Categorie">
                 <MenuItem x:Name="miCategorieInserisci" Header="Inserisci" Click="MiCategorieInserisci_Click"/>
