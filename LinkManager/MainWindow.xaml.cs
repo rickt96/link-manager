@@ -38,6 +38,8 @@ namespace LinkManager
         {
             //https://stackoverflow.com/questions/27348796/wpf-adding-an-object-to-listbox-with-existing-itemssource
             lbxCategorie.ItemsSource = null;
+            dgLinks.ItemsSource = null;
+
             var source = new ObservableCollection<Categoria>(list);
             lbxCategorie.ItemsSource = source;
             //source.Add(new Categoria() { Nome = "*Senza categoria", IdCategoria = -1 });

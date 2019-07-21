@@ -28,7 +28,9 @@ namespace LinkManager.Services
 
         public Categoria Delete(int id)
         {
-            Categoria d = _context.Categorie.First(x => x.IdCategoria == id);
+            Categoria d = _context.Categorie.Include("Links").First(x => x.IdCategoria == id);
+            _context.Links.RemoveRange(d.Links);
+
             _context.Categorie.Remove(d);
             _context.SaveChanges();
 

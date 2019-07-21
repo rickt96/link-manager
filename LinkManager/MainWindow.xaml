@@ -30,7 +30,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Menu VerticalAlignment="Top" FontSize="14">
-            <MenuItem Header="_File">
+            <MenuItem Header="_File" IsEnabled="False">
                 <MenuItem Header="Apri..." Click="MenuItem_Click"/>
                 <MenuItem Header="Nuovo..."/>
             </MenuItem>
