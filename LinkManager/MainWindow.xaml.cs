@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.VisualBasic;
+using Microsoft.Win32;
 
 namespace LinkManager
 {
@@ -83,6 +84,7 @@ namespace LinkManager
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             LoadCategorie(categoriaService.GetAll());
+            this.Title = "Gestione link - " + new ConfigManager().GetKey("FileName");
         }
 
 
@@ -203,7 +205,23 @@ namespace LinkManager
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            new WindowDialog().ShowDialog();
+            
+        }
+
+        private void miFileApri_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == true)
+            {
+                ConfigManager cfg = new ConfigManager();
+                cfg.SetKey("FileName", ofd.FileName);
+
+                categoriaService = new CategorieService();
+                linksService = new LinksService();
+
+                LoadCategorie(categoriaService.GetAll());
+                this.Title = "Gestione link - " + ofd.FileName;
+            }
         }
     }
 }

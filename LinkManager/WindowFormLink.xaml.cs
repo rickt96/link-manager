@@ -46,6 +46,33 @@ namespace LinkManager
         }
 
 
+        void CheckSave()
+        {
+            bool textOk, categoryOk = false;
+
+            if (Uri.IsWellFormedUriString(txtUrl.Text, UriKind.Absolute))
+            {
+                txtUrl.Background = Brushes.LightGreen;
+                textOk = true;
+            }
+            else
+            {
+                txtUrl.Background = Brushes.Orange;
+                textOk = false;
+            }
+
+            if (cmbCategoria.SelectedIndex == -1)
+                categoryOk = false;
+            else
+                categoryOk = true;
+
+            if (categoryOk == true && textOk == true)
+                btnSalva.IsEnabled = true;
+            else
+                btnSalva.IsEnabled = false;
+        }
+
+
         private void BtnSalva_Click(object sender, RoutedEventArgs e)
         {
             _link.Titolo = txtTitolo.Text;
@@ -95,16 +122,12 @@ namespace LinkManager
             if (this.IsLoaded == false)
                 return;
 
-            if (Uri.IsWellFormedUriString(txtUrl.Text, UriKind.Absolute))
-            {
-                txtUrl.Background = Brushes.LightGreen;
-                btnSalva.IsEnabled = true;
-            }
-            else
-            {
-                txtUrl.Background = Brushes.Orange;
-                btnSalva.IsEnabled = false;
-            }
+            CheckSave();
+        }
+
+        private void cmbCategoria_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CheckSave();
         }
     }
 }

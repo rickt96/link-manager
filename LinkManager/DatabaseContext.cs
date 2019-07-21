@@ -11,11 +11,17 @@ namespace LinkManager
 {
     public class DatabaseContext : DbContext
     {
-        string dbPath = "links.sqlite";
+        string dbPath;
+
+        public DatabaseContext(string dbPath="db.sqlite")
+        {
+            this.dbPath = dbPath;
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source="+dbPath);
+            
         }
 
         public DbSet<Link> Links { get; set; }

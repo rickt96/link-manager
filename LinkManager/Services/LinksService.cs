@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace LinkManager.Services
 {
-    class LinksService : IService<Link>
+    class LinksService : Service, IService<Link>
     {
-        private DatabaseContext _context;
-
-        public LinksService()
-        {
-            _context = new DatabaseContext();
-            _context.Database.EnsureCreated();
-        }
+        
 
         public Link Add(Link element)
         {

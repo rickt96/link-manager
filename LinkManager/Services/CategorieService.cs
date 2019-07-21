@@ -7,16 +7,8 @@ using System.Threading.Tasks;
 
 namespace LinkManager.Services
 {
-    class CategorieService : IService<Categoria>
+    class CategorieService : Service, IService<Categoria>
     {
-        private DatabaseContext _context;
-
-        public CategorieService()
-        {
-            _context = new DatabaseContext();
-            _context.Database.EnsureCreated();
-
-        }
 
         public Categoria Add(Categoria element)
         {

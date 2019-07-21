@@ -30,9 +30,9 @@
             </DataGrid.Columns>
         </DataGrid>
         <Menu VerticalAlignment="Top" FontSize="14">
-            <MenuItem Header="_File" IsEnabled="False">
-                <MenuItem Header="Apri..." Click="MenuItem_Click"/>
-                <MenuItem Header="Nuovo..."/>
+            <MenuItem Header="_File">
+                <MenuItem x:Name="miFileApri" Header="Apri..." Click="miFileApri_Click"/>
+                <MenuItem Header="Nuovo..." IsEnabled="False"/>
             </MenuItem>
             <MenuItem Header="_Categorie">
                 <MenuItem x:Name="miCategorieInserisci" Header="Inserisci" Click="MiCategorieInserisci_Click"/>
@@ -49,7 +49,7 @@
             <MenuItem Header="Importa" IsEnabled="False"/>
         </Menu>
         <StatusBar VerticalAlignment="Bottom">
-            <TextBlock Text="numero elementi"/>
+            <TextBlock x:Name="txbCount" Text="categorie: -- | links: --" IsEnabled="False"/>
         </StatusBar>
     </Grid>
 </Window>
