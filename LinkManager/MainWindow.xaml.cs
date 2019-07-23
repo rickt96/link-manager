@@ -34,7 +34,7 @@ namespace LinkManager
             if (!File.Exists(cfg.GetKey("FileName")))
             {
                 _isDbLoaded = false;
-                MessageBox.Show("Impossibile caricare il file " + cfg.GetKey("FileName") + ". Selezionare un altro file");
+                MessageBox.Show("Impossibile caricare " + cfg.GetKey("FileName") + ". Selezionare un altro file", "", MessageBoxButton.OK, MessageBoxImage.Warning);
                 ToggleMenu(false);
             }
             else
