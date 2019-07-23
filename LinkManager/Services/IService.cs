@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace LinkManager.Services
 {
+    /// <summary>
+    /// Interfaccia per le operazioni CRUD
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     interface IService<T>
     {
         List<T> GetAll();

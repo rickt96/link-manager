@@ -1,27 +1,16 @@
 ﻿using LinkManager.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace LinkManager
 {
     /// <summary>
-    /// Interaction logic for WindowFormCategoria.xaml
+    /// form di creazione e modifica di una categoria
     /// </summary>
     public partial class WindowFormCategoria : Window
     {
         CategorieService _service;
         Categoria _categoria;
+
         public WindowFormCategoria()
         {
             InitializeComponent();
@@ -48,12 +37,12 @@ namespace LinkManager
             if(_categoria.IdCategoria > 0)
             {
                 _service.Edit(_categoria);
-                MessageBox.Show("Categoria modificata", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Categoria modificata", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
                 _service.Add(_categoria);
-                MessageBox.Show("Categoria inserita", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Categoria inserita", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
             this.DialogResult = true;

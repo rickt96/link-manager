@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LinkManager"
         mc:Ignorable="d"
-        Title="Categoria" Height="225.237" Width="401.778" FontSize="14" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="Categoria" Height="225.237" Width="500" FontSize="14" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid>
         <Label Content="Nome categoria:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Label Content="Descrizione:" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtNome" Height="23" Margin="142,14,45,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtDescrizione" Height="62" Margin="142,48,45,0" TextWrapping="Wrap" Text="TextBox&#xD;&#xA;Ssda&#xD;&#xA;Cvdsf" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtNome" Height="23" Margin="142,14,45,0" Text="TextBox" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtDescrizione" Height="62" Margin="142,48,45,0" TextWrapping="Wrap" Text="TextBox&#xD;&#xA;Ssda&#xD;&#xA;Cvdsf" VerticalAlignment="Top" AcceptsReturn="True"/>
         <Button x:Name="btnSalva" Content="Salva" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="BtnSalva_Click"/>
         <Button x:Name="btnAnnulla" Content="Annulla" HorizontalAlignment="Right" Margin="0,0,90,10" VerticalAlignment="Bottom" Width="75" Click="BtnAnnulla_Click"/>
 

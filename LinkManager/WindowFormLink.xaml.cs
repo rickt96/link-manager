@@ -1,22 +1,12 @@
 ﻿using LinkManager.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace LinkManager
 {
     /// <summary>
-    /// Form di inserimento e modifica link
+    /// Form di inserimento e modifica di un link
     /// </summary>
     public partial class WindowFormLink : Window
     {
@@ -52,12 +42,12 @@ namespace LinkManager
 
             if (Uri.IsWellFormedUriString(txtUrl.Text, UriKind.Absolute))
             {
-                txtUrl.Background = Brushes.LightGreen;
+                //txtUrl.Background = Brushes.LightGreen;
                 textOk = true;
             }
             else
             {
-                txtUrl.Background = Brushes.Orange;
+                //txtUrl.Background = Brushes.Orange;
                 textOk = false;
             }
 
@@ -108,12 +98,18 @@ namespace LinkManager
             cmbCategoria.DisplayMemberPath = "Nome";
 
             //caricamento elementi form
-            txtTitolo.Text = (_link.IdLink > 0) ? _link.Titolo : "nuovo titolo";
-            txtDescrizione.Text = (_link.IdLink > 0) ? _link.Descrizione : "descrizione";
-            txtUrl.Text = (_link.IdLink > 0) ? _link.URL : "http://";
+            txtTitolo.Text = (_link.IdLink > 0) ? _link.Titolo : "";
+            txtDescrizione.Text = (_link.IdLink > 0) ? _link.Descrizione : "";
+            txtUrl.Text = (_link.IdLink > 0) ? _link.URL : "";
             foreach (Categoria c in cmbCategoria.Items)
                 if (c.IdCategoria == _link.IdCategoria)
                     cmbCategoria.SelectedItem = c;
+
+            //preload clipboard
+            if (_link.IdLink == 0 && Uri.IsWellFormedUriString(Clipboard.GetText(), UriKind.RelativeOrAbsolute))
+            {
+                txtUrl.Text = Clipboard.GetText();
+            }
         }
 
 

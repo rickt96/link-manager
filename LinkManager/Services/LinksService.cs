@@ -8,8 +8,6 @@ namespace LinkManager.Services
 {
     class LinksService : Service, IService<Link>
     {
-        
-
         public Link Add(Link element)
         {
             _context.Links.Add(element);
@@ -55,6 +53,11 @@ namespace LinkManager.Services
         public List<Link> GetAllByIdCategoria(int IdCategoria)
         {
             return _context.Links.Where(l => l.IdCategoria == IdCategoria).ToList();
+        }
+
+        public List<Link> Search(string pattern)
+        {
+            return _context.Links.Where(l => l.Titolo.Contains(pattern) || l.Descrizione.Contains(pattern) || l.URL.Contains(pattern)).ToList();
         }
     }
 }

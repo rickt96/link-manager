@@ -1,61 +1,106 @@
 ﻿using LinkManager.Services;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
+using System.IO;
 
 namespace LinkManager
 {
-
     public partial class MainWindow : Window
     {
         CategorieService categoriaService;
         LinksService linksService;
 
+        bool _isDbLoaded = false;
 
         public MainWindow()
         {
-            InitializeComponent();
-            categoriaService = new CategorieService();
-            linksService = new LinksService();
+            InitializeComponent(); 
         }
 
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ConfigManager cfg = new ConfigManager();
+
+            //check database
+            if (!File.Exists(cfg.GetKey("FileName")))
+            {
+                _isDbLoaded = false;
+                MessageBox.Show("Impossibile caricare il file " + cfg.GetKey("FileName") + ". Selezionare un altro file");
+                ToggleMenu(false);
+            }
+            else
+            {
+                _isDbLoaded = true;
+                ToggleMenu(true);
+
+                Init();
+            }
+        }
+
+
+        void Init()
+        {
+            // init services
+            categoriaService = new CategorieService();
+            linksService = new LinksService();
+
+            // load elementi
+            LoadCategorie(categoriaService.GetAll());
+
+            //ui
+            this.Title = "Gestione link - " + new ConfigManager().GetKey("FileName");
+            // TODO
+            //txbCount.Text = "";
+        }
+
+        void ToggleMenu(bool state=false)
+        {
+            foreach(MenuItem mi in meMain.Items)
+            {
+                if (mi.Header.ToString() != "_File")
+                {
+                    mi.IsEnabled = state;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// carica la lista di categorie, contenenti i relativi link 
+        /// e le mostra nella listbox
+        /// </summary>
         void LoadCategorie(List<Categoria> list)
         {
-            //https://stackoverflow.com/questions/27348796/wpf-adding-an-object-to-listbox-with-existing-itemssource
+            // https://stackoverflow.com/questions/27348796/wpf-adding-an-object-to-listbox-with-existing-itemssource
             lbxCategorie.ItemsSource = null;
             dgLinks.ItemsSource = null;
-
+            // utilizzando l'observable sono libero di inserire elementi manualmente nella lista senza essere bloccata da ItemsSource
             var source = new ObservableCollection<Categoria>(list);
             lbxCategorie.ItemsSource = source;
             //source.Add(new Categoria() { Nome = "*Senza categoria", IdCategoria = -1 });
             //source.Add(new Categoria() { Nome = "*Tutti", IdCategoria=0 });
-
-            //(new Categoria() { Nome = "prova" });
             lbxCategorie.DisplayMemberPath = "Nome";
         }
 
 
+        /// <summary>
+        /// carica nel datagrid una lista di link
+        /// </summary>
         void LoadLinks(List<Link> source)
         {
             dgLinks.ItemsSource = null;
             dgLinks.ItemsSource = source;
         }
+
 
         /// <summary>
         /// ottiene l'oggetto categoria selezionato dalla listbox
@@ -66,25 +111,6 @@ namespace LinkManager
                 return null;
             else
                 return (Categoria)lbxCategorie.SelectedItem;
-        }
-
-        void OpenUrl(string url)
-        {
-            if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
-            {
-                Process.Start(url);
-            }
-            else
-            {
-                MessageBox.Show("Url invalido", "", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
-
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            LoadCategorie(categoriaService.GetAll());
-            this.Title = "Gestione link - " + new ConfigManager().GetKey("FileName");
         }
 
 
@@ -143,7 +169,10 @@ namespace LinkManager
 
         private void MiLinkInserisci_Click(object sender, RoutedEventArgs e)
         {
-            new WindowFormLink().ShowDialog();
+            Categoria c = GetSelectedCategoria();
+            int idCat = (c != null) ? c.IdCategoria.Value : 0;
+
+            new WindowFormLink(idCat).ShowDialog();
             LoadCategorie(categoriaService.GetAll());
         }
 
@@ -203,11 +232,6 @@ namespace LinkManager
             Process.Start(link.NavigateUri.AbsoluteUri);
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
         private void miFileApri_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -240,6 +264,17 @@ namespace LinkManager
                 LoadCategorie(categoriaService.GetAll());
                 this.Title = "Gestione link - " + sfd.FileName;
             }
+        }
+
+        private void LbxCategorie_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MiCategorieModifica_Click(sender, e);
+        }
+
+        private void MiLinkCerca_Click(object sender, RoutedEventArgs e)
+        {
+            string pattern = Interaction.InputBox("cerca");
+            LoadLinks(linksService.Search(pattern));
         }
     }
 }

@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="Gestore link" Height="546.967" Width="907.322" Loaded="Window_Loaded" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen">
     <Grid>
-        <ListBox x:Name="lbxCategorie" HorizontalAlignment="Left" Margin="10,26,0,27.333" Width="220" SelectionChanged="LbxCategorie_SelectionChanged"/>
-        <DataGrid x:Name="dgLinks" Margin="235,26,10,27" IsReadOnly="True" Foreground="Black" Background="White" AutoGenerateColumns="False" MouseDoubleClick="DgLinks_MouseDoubleClick" GridLinesVisibility="Horizontal">
+        <ListBox x:Name="lbxCategorie" HorizontalAlignment="Left" Margin="10,26,0,27.333" Width="220" SelectionChanged="LbxCategorie_SelectionChanged" MouseDoubleClick="LbxCategorie_MouseDoubleClick"/>
+        <DataGrid x:Name="dgLinks" Margin="235,26,10,27" IsReadOnly="True" Foreground="Black" Background="White" AutoGenerateColumns="False" MouseDoubleClick="DgLinks_MouseDoubleClick">
             <DataGrid.VerticalGridLinesBrush>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
             </DataGrid.VerticalGridLinesBrush>
@@ -25,11 +25,11 @@
                         </Style>
                     </DataGridHyperlinkColumn.ElementStyle>
                 </DataGridHyperlinkColumn>
-                <DataGridTextColumn Header="Descrizione" Binding="{Binding Descrizione}"/>
+                <!--<DataGridTextColumn Header="Descrizione" Binding="{Binding Descrizione}"/>-->
                 
             </DataGrid.Columns>
         </DataGrid>
-        <Menu VerticalAlignment="Top" FontSize="14">
+        <Menu x:Name="meMain" VerticalAlignment="Top" FontSize="14">
             <MenuItem Header="_File">
                 <MenuItem x:Name="miFileApri" Header="Apri..." Click="miFileApri_Click"/>
                 <MenuItem x:Name="miFileNuovo" Header="Nuovo..." Click="miFileNuovo_Click"/>
@@ -38,6 +38,7 @@
                 <MenuItem x:Name="miCategorieInserisci" Header="Inserisci" Click="MiCategorieInserisci_Click"/>
                 <MenuItem x:Name="miCategorieModifica" Header="Modifica" Click="MiCategorieModifica_Click"/>
                 <MenuItem x:Name="miCategorieElimina" Header="Elimina" Click="MiCategorieElimina_Click"/>
+                <Separator></Separator>
                 <MenuItem x:Name="miCategorieCerca" Header="Cerca..." Click="miCategorieCerca_Click"/>
 
             </MenuItem>
@@ -45,6 +46,8 @@
                 <MenuItem x:Name="miLinkInserisci" Header="Inserisci" Click="MiLinkInserisci_Click"/>
                 <MenuItem x:Name="miLinkModifica" Header="Modifica" Click="MiLinkModifica_Click"/>
                 <MenuItem x:Name="miLinkElimina" Header="Elimina" Click="MiLinkElimina_Click"/>
+                <Separator></Separator>
+                <MenuItem x:Name="miLinkCerca" Header="Cerca..." Click="MiLinkCerca_Click"/>
             </MenuItem>
             <MenuItem Header="Importa" IsEnabled="False"/>
         </Menu>

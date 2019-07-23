@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LinkManager"
         mc:Ignorable="d"
-        Title="Link" Height="268" Width="435.5" Loaded="Window_Loaded" ResizeMode="NoResize">
+        Title="Link" Height="284" Width="500" Loaded="Window_Loaded" ResizeMode="NoResize">
     <Grid>
         <Label Content="Titolo:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtTitolo" Height="23" Margin="142,14,45,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtTitolo" Height="23" Margin="120,14,30,0" Text="TextBox" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
         <Label Content="URL:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtUrl" Height="23" Margin="142,45,45,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" TextChanged="TxtUrl_TextChanged"/>
+        <TextBox x:Name="txtUrl" Height="23" Margin="120,45,30,0" Text="TextBox" VerticalAlignment="Top" TextChanged="TxtUrl_TextChanged" VerticalContentAlignment="Center"/>
         <Label Content="Descrizione:" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtDescrizione" Height="52" Margin="142,107,45,0" TextWrapping="Wrap" Text="TextBox&#xD;&#xA;Asdas&#xD;&#xA;Esda" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtDescrizione" Height="79" Margin="120,107,30,0" TextWrapping="Wrap" Text="TextBox&#xD;&#xA;Asdas&#xD;&#xA;Esda" VerticalAlignment="Top" MaxLength="500" AcceptsReturn="True"/>
         <Label Content="Categoria:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="cmbCategoria" Margin="142,76,45,0" VerticalAlignment="Top" SelectionChanged="cmbCategoria_SelectionChanged"/>
+        <ComboBox x:Name="cmbCategoria" Margin="120,76,30,0" VerticalAlignment="Top" SelectionChanged="cmbCategoria_SelectionChanged"/>
         <Button x:Name="btnSalva" Content="Salva" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="BtnSalva_Click"/>
         <Button x:Name="btnAnnulla" Content="Annulla" HorizontalAlignment="Right" Margin="0,0,90,10" VerticalAlignment="Bottom" Width="75" Click="BtnAnnulla_Click"/>
 

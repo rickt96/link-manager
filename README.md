@@ -10,15 +10,18 @@ interfacciamento con Entity Framework Core
  - crud liste
  - form inserimento/modifica categoria
  - form inserimento/modifica link
- - apertura collegamento in app
+ - apertura URL dall'app
  - caricamento runtime di un nuovo file database
  - lettura/scrittura app.config
+ - preimpostazione url form
+ - preimpostazione categoria form
+ - ricerca per categoria e link
 
 ## TODO
  - aggiungere controlli try-catch sui services
  - ottimizzazione loading categorie
- - ricerca sui link
- - categoria preselezionata sulla creazione di un nuovo link
+ - ottimizzare incapsulamento codice mainwindow
+ 
 
  ## ripristino pacchetti nuget
 digitare da console "dotnet restore"
