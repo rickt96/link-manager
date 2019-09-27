@@ -47,6 +47,9 @@ namespace LinkManager
         }
 
 
+        /// <summary>
+        /// init services, caricamento categorie
+        /// </summary>
         void Init()
         {
             // init services
@@ -62,6 +65,11 @@ namespace LinkManager
             //txbCount.Text = "";
         }
 
+
+        /// <summary>
+        /// abilita o disabilita le voci del menu eccetto la parte dei file
+        /// </summary>
+        /// <param name="state">true: abilita | false: disabilita</param>
         void ToggleMenu(bool state=false)
         {
             foreach(MenuItem mi in meMain.Items)
@@ -95,10 +103,10 @@ namespace LinkManager
         /// <summary>
         /// carica nel datagrid una lista di link
         /// </summary>
-        void LoadLinks(List<Link> source)
+        void LoadLinks(List<Link> list)
         {
             dgLinks.ItemsSource = null;
-            dgLinks.ItemsSource = source;
+            dgLinks.ItemsSource = list;
         }
 
 
@@ -114,7 +122,9 @@ namespace LinkManager
         }
 
 
+
         #region categorie
+
 
         private void LbxCategorie_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -122,6 +132,44 @@ namespace LinkManager
             if(c != null)
                 LoadLinks(c.Links.ToList());
         }
+
+
+        private void LbxCategorie_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MiCategorieModifica_Click(sender, e);
+        }
+
+
+        #endregion
+
+
+
+        #region link
+
+
+        private void DgLinks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (dgLinks.SelectedIndex == -1)
+                return;
+
+            Link l = (Link)dgLinks.SelectedItem;
+            new WindowFormLink(l).ShowDialog();
+        }
+
+
+        private void dgLinksUrl_Click(object sender, RoutedEventArgs e)
+        {
+            //https://stackoverflow.com/questions/5764951/using-wpf-datagridhyperlinkcolumn-items-to-open-windows-explorer-and-open-files
+            Hyperlink link = (Hyperlink)e.OriginalSource;
+            Process.Start(link.NavigateUri.AbsoluteUri);
+        }
+
+
+        #endregion
+
+
+
+        #region menu
 
 
         private void MiCategorieInserisci_Click(object sender, RoutedEventArgs e)
@@ -162,10 +210,52 @@ namespace LinkManager
             }
         }
 
-        #endregion
+
+        private void miCategorieCerca_Click(object sender, RoutedEventArgs e)
+        {
+            string pattern = Interaction.InputBox("cerca");
+            LoadCategorie(categoriaService.Search(pattern));
+        }
 
 
-        #region link
+        private void miFileApri_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "file sqlite (*.sqlite)|*.sqlite";
+            if (ofd.ShowDialog() == true)
+            {
+                ConfigManager cfg = new ConfigManager();
+                cfg.SetKey("FileName", ofd.FileName);
+
+                Init();
+
+                ToggleMenu(true);
+            }
+        }
+
+
+        private void miFileNuovo_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "file sqlite (*.sqlite)|*.sqlite";
+            if (sfd.ShowDialog() == true)
+            {
+                ConfigManager cfg = new ConfigManager();
+                cfg.SetKey("FileName", sfd.FileName);
+
+                Init();
+
+                ToggleMenu(true);
+            }
+        }
+
+
+        private void MiLinkCerca_Click(object sender, RoutedEventArgs e)
+        {
+            string pattern = Interaction.InputBox("cerca");
+            LoadLinks(linksService.Search(pattern));
+        }
+
 
         private void MiLinkInserisci_Click(object sender, RoutedEventArgs e)
         {
@@ -203,78 +293,9 @@ namespace LinkManager
             }
         }
 
-        private void DgLinks_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (dgLinks.SelectedIndex == -1)
-                return;
-
-            Link l = (Link)dgLinks.SelectedItem;
-            new WindowFormLink(l).ShowDialog();
-        }
-
-
-
-
-
 
         #endregion
 
-        private void miCategorieCerca_Click(object sender, RoutedEventArgs e)
-        {
-            string pattern = Interaction.InputBox("cerca");
-            LoadCategorie(categoriaService.Search(pattern));
-        }
 
-        private void dgLinksUrl_Click(object sender, RoutedEventArgs e)
-        {
-            //https://stackoverflow.com/questions/5764951/using-wpf-datagridhyperlinkcolumn-items-to-open-windows-explorer-and-open-files
-            Hyperlink link = (Hyperlink)e.OriginalSource;
-            Process.Start(link.NavigateUri.AbsoluteUri);
-        }
-
-        private void miFileApri_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "file sqlite (*.sqlite)|*.sqlite";
-            if (ofd.ShowDialog() == true)
-            {
-                ConfigManager cfg = new ConfigManager();
-                cfg.SetKey("FileName", ofd.FileName);
-
-                categoriaService = new CategorieService();
-                linksService = new LinksService();
-
-                LoadCategorie(categoriaService.GetAll());
-                this.Title = "Gestione link - " + ofd.FileName;
-            }
-        }
-
-        private void miFileNuovo_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "file sqlite (*.sqlite)|*.sqlite";
-            if (sfd.ShowDialog() == true)
-            {
-                ConfigManager cfg = new ConfigManager();
-                cfg.SetKey("FileName", sfd.FileName);
-
-                categoriaService = new CategorieService();
-                linksService = new LinksService();
-
-                LoadCategorie(categoriaService.GetAll());
-                this.Title = "Gestione link - " + sfd.FileName;
-            }
-        }
-
-        private void LbxCategorie_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            MiCategorieModifica_Click(sender, e);
-        }
-
-        private void MiLinkCerca_Click(object sender, RoutedEventArgs e)
-        {
-            string pattern = Interaction.InputBox("cerca");
-            LoadLinks(linksService.Search(pattern));
-        }
     }
 }
